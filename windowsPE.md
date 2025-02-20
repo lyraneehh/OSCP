@@ -16,9 +16,14 @@ Get-LocalGroupMember <GROUP-NAME>
 ## 🔹Check for Credentials🔹
 
 ```
-reg query "HKLM\SOFTWARE\Microsoft\Windows NT\Currentversion\Winlogon"
 reg query HKLM /f password /t REG_SZ /s
 reg query HKCU /f password /t REG_SZ /s
+
+reg query "HKLM\SOFTWARE\Microsoft\Windows NT\Currentversion\Winlogon"
+reg query "HKCU\Software\ORL\WinVNC3\Password"
+reg query "HKLM\SYSTEM\Current\ControlSet\Services\SNMP"
+reg query "HKCU\Software\SimonTatham\PuTTY\Sessions"
+
 findstr /si password *.xml *.ini *.txt
 dir /s *pass* == *cred* == *vnc* == *.config*
 ```
