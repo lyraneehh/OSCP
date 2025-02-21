@@ -85,6 +85,7 @@ cacls "C:\Python27"
 
 # ⭐⭐ Services ⭐⭐ 
 - Is there a service that runs as SYSTEM but is writable by all logged-on users?  (NT AUTHORITY\INTERACTIVE)
+- To check for vulnerable services: .\PowerUp.ps1 (Get-ModifiableServiceFile),  .\SharpUp.exe audit
 
 ## 💠Manage Service💠 
 ```
@@ -206,7 +207,7 @@ Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\simpleService" -
 Get-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\simpleService"
 ```
 
-##  ⭐⭐Scheduld Tasks⭐⭐
+##  ⭐⭐Scheduled Tasks⭐⭐
 ```
 Get-ScheduledTask
 schtasks /query
