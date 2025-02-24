@@ -28,6 +28,26 @@ findstr /si password *.xml *.ini *.txt
 dir /s *pass* == *cred* == *vnc* == *.config*
 ```
 
+##  🔹Check for GIT 🔹
+```
+dir /s /b /a:hd | findstr "\.git$"
+Get-ChildItem -Directory -Recurse -Filter *.git -Force | Select-Object -ExpandProperty FullName
+```
+
+```
+# view commit history
+git log
+
+# show changes for a commit
+git show COMMIT_HASH
+
+# search for sensitive keywords in current checkout
+git grep -i password
+
+# search for sensitive keywords in file content of entire commit history
+git grep -i password $(git rev-list --all)
+```
+
 cmdkey
 ```
 cmdkey /list
