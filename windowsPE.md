@@ -95,6 +95,11 @@ Env:$env:PATH
 ```
 icacls FILE
 ```
+```
+icacls FOLDER
+AD - Create new files/subfolders
+WD - : Write Data
+```
 Example:
 (F) FULL CONTROL
 
