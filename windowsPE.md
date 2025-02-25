@@ -96,15 +96,22 @@ Env:$env:PATH
 icacls FILE
 ```
 Example:
-```
 (F) FULL CONTROL
-```
 
+
+## ⭐⭐DLLs⭐⭐
+```
+🔺List out DLLs of a given service
+.\Listdlls64.exe /accepteula simpleService
+```
 
 ## 🔹Acccess Permission🔹
 ```
 accesschk64.exe /accepteula -dqv "C:\Python27"
-cacls "C:\Python27"
+icacls "C:\Python27"
+
+# Can write files?
+"This is the output from a command" | Out-File -FilePath "C:\temp\example.txt"
 ```
 
 # ⭐⭐ Services ⭐⭐ 
@@ -278,11 +285,6 @@ C:\Users\user\Desktop>cscript C:\PrivEsc\CreateShortcut.vbs
 3.   Simulate an admin logon using RDP and the credentials you previously extracted
 ```
 
-## ⭐⭐DLLs⭐⭐
-```
-🔺List out DLLs of a given service
-.\Listdlls64.exe /accepteula simpleService
-```
 
 ## ⭐⭐Permissions⭐⭐
 Must try many times - sometimes shell dont work, exploit dont work etc
