@@ -95,6 +95,10 @@ Env:$env:PATH
 ```
 icacls FILE
 ```
+Example:
+```
+(F) FULL CONTROL
+```
 
 
 ## 🔹Acccess Permission🔹
