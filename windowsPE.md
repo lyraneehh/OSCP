@@ -136,6 +136,7 @@ Get-CimInstance -ClassName win32_service | Select Name,State,PathName | Where-Ob
 
 sc.exe stop <SERVICE>
 sc.exe start <SERVICE>
+restart-service <SERVICE>
 
 🔺 Is SERVICE_START_NAME = LocalSystem? -> SYSTEM Privileges?
 🔺 Check if writable by all logged-on users (NT AUTHORITY\INTERACTIVE)
