@@ -109,6 +109,8 @@ Example:
 🔺List out DLLs of a given service
 .\Listdlls64.exe /accepteula simpleService
 ```
+In order to truly know which DLLs are loaded (assuming that you are 99% sure that the service/executable can be exploited by DLL hijacking,
+Use procces explorer, filter along the lines of 'NAME NOT FOUND'
 
 ## 🔹Acccess Permission🔹
 ```
