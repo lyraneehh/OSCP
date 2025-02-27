@@ -9,7 +9,7 @@ pip3 install cheroot
 mkdir webdav
 sudo wsgidav --host=0.0.0.0 --port=80 --auth=anonymous --root webdav/
 ```
-### 2) Create 'config.Library.ms'
+### 2) Create 'config.Library-ms'
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <libraryDescription xmlns="http://schemas.microsoft.com/windows/2009/library">
