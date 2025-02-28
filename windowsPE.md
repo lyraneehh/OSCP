@@ -252,6 +252,7 @@ Get-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\simpleService"
 ```
 
 ##  ⭐⭐Scheduled Tasks⭐⭐
+ Take note that Scheduled Tasks can be hidden
 ```
 Get-ScheduledTask
 schtasks /query
@@ -260,13 +261,31 @@ schtasks /query
 Get-ScheduledTask | Where-Object {$_.TaskPath -eq "\Microsoft\Windows\Shell\"}
 
 🔺List tasks with details
-Get-ScheduledTask -TaskName "MyTask" | Get-ScheduledTaskInfo
+Get-ScheduledTask -TaskName "TASKNAM" | Get-ScheduledTaskInfo
 schtasks /query /FO LIST /V
 Get-ScheduledTask -TaskName "XblGameSaveTask" | Format-List *
 
 🔺Extract binary path and arguments of services
-(Get-ScheduledTask -TaskName "XblGameSaveTask").Actions
+(Get-ScheduledTask -TaskName "TASKNAME").Actions
 Get-ScheduledTask | ForEach-Object { $_.Actions }
+
+🔺 Hidden Task
+Get-ScheduledTask | Where-Object { $_.Settings.Hidden -eq $true }
+
+🔺 Very important to run
+# if you suspect there is a file being run as a Schtask, you want to execute this command and look for that file.
+Get-ScheduledTask | ForEach-Object { $_.Actions }
+
+# 1) if you suspect powershell is used in a task, execute below and take the TaskName
+Get-ScheduledTask | Where-Object { $_.Actions.Execute -match "powershell.exe" }
+
+# 2) Execute
+$task = Get-ScheduledTask -TaskName "TASK"
+$task.Actions | Format-Table Id, Arguments, Execute
+
+
+
+
 ```
 
 
