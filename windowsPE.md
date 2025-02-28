@@ -284,6 +284,10 @@ Get-ScheduledTask | Where-Object { $_.Actions.Execute -match "powershell.exe" }
 $task = Get-ScheduledTask -TaskName "TASK"
 $task.Actions | Format-Table Id, Arguments, Execute
 
+🔺 Edit Scheduled task
+$action = New-ScheduledTaskAction -Execute "cmd.exe" -Argument "/c echo Hello > C:\test.txt"
+
+Set-ScheduledTask -TaskPath "\TASK_PATH\" -TaskName "TASK_NAME" -Action $action
 
 
 
