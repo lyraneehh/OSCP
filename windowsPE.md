@@ -258,6 +258,7 @@ Get-ScheduledTask
 schtasks /query
 
 🔺List task in a specific folder
+# to find out task path, specify task using 'Get-ScheduledTask'
 Get-ScheduledTask | Where-Object {$_.TaskPath -eq "\Microsoft\Windows\Shell\"}
 
 🔺List tasks with details
