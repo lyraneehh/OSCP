@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/30835e6c-df48-4216-8818-dca177d19019)
+
 
 
 
@@ -302,10 +302,8 @@ Get-ScheduledTask -TaskName "Windows Update Configuration" | Select-Object TaskN
 $task = Get-ScheduledTask -TaskName "Windows Update Configuration"
 $task.Principal | Format-List *
 
-![image](https://github.com/user-attachments/assets/9c7c1063-0458-433d-8b92-5e0b9ed50413)
-
 ```
-
+![image](https://github.com/user-attachments/assets/30835e6c-df48-4216-8818-dca177d19019)
 
 
 ## ⭐⭐Permissions⭐⭐
