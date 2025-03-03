@@ -284,12 +284,24 @@ Get-ScheduledTask | Where-Object { $_.Actions.Execute -match "powershell.exe" }
 $task = Get-ScheduledTask -TaskName "TASK"
 $task.Actions | Format-Table Id, Arguments, Execute
 
+🔺 Start Task
+Start-ScheduledTask -TaskPath "\Microsoft\" -TaskName "Windows Update Configuration" 
+
 🔺 Edit Scheduled task
 $action = New-ScheduledTaskAction -Execute "cmd.exe" -Argument "/c echo Hello > C:\test.txt"
-
 Set-ScheduledTask -TaskPath "\TASK_PATH\" -TaskName "TASK_NAME" -Action $action
 
+🔺 When does it run?
+Get-ScheduledTaskInfo -TaskPath "\Microsoft\" -TaskName "Windows Update Configuration"
 
+🔺 What privileges (Principal) does it run as?
+Get-ScheduledTask -TaskName "Windows Update Configuration" | Select-Object TaskName,Principal
+
+# If Principal != System, check who has that Principal privileges (under UserID)
+$task = Get-ScheduledTask -TaskName "Windows Update Configuration"
+$task.Principal | Format-List *
+
+![image](https://github.com/user-attachments/assets/9c7c1063-0458-433d-8b92-5e0b9ed50413)
 
 ```
 
