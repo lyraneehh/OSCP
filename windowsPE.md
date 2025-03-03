@@ -275,7 +275,7 @@ Get-ScheduledTask | Where-Object { $_.Settings.Hidden -eq $true }
 
 🔺 Very important to run
 # if you suspect there is a file being run as a Schtask, you want to execute this command and look for that file.
-Get-ScheduledTask | ForEach-Object { $_.Actions }
+Get-ScheduledTask | ForEach-Object { $_.Actions.Execute -match "FILE"}
 
 # 1) if you suspect powershell is used in a task, execute below and take the TaskName
 Get-ScheduledTask | Where-Object { $_.Actions.Execute -match "powershell.exe" }
