@@ -111,7 +111,6 @@ keepass2john Database.kdbx > keepass.hash
 Crack 
 ```
 john --wordlist=/usr/share/wordlists/rockyou.txt keepass.hash
-
 # If we hashcat we must remember to strip off the initial “Database:” from the hash.
 hashcat -m 13400 keepass.hash rockyou.txt -r rockyou-30000.rule --force
 ```
