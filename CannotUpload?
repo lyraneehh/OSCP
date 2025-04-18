@@ -1,0 +1,5 @@
+Use EvilWinrm's upload/download feature
+
+- cd to file location's directory on kali
+- evilwinrm into account
+- upload winPEASx64.exe
