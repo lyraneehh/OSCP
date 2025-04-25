@@ -32,7 +32,7 @@ dir /s *pass* == *cred* == *vnc* == *.config*
 ##  🔹Check for GIT 🔹
 ```
 dir /s /b /a:hd | findstr "\.git$"
-Get-ChildItem -Directory -Recurse -Filter *.git -Force | Select-Object -ExpandProperty FullName
+Get-ChildItem -Directory -Recurse -Filter *.git -Force -ErrorAction SilentlyContinue | Select-Object -ExpandProperty FullName
 ```
 
 ```
