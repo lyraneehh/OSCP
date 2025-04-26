@@ -34,7 +34,7 @@ Is there windows.old? Look for SAM/ system hive files.
 Get-ChildItem -Path . -Recurse -Force -ErrorAction SilentlyContinue | Where-Object { $_.Name -match 'SAM|SYSTEM' } |  Select-Object -ExpandProperty FullName```
 download SAM, SYSTEM
 secretsdump.py -sam SAM -system SYSTEM LOCAL
-
+```
 
 ##  🔹Check for GIT 🔹
 ```
