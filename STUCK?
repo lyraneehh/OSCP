@@ -1,3 +1,45 @@
+Specifically for JDWP exploits - https://hacktricks.boitatech.com.br/pentesting/pentesting-jdwp-java-debug-wire-protocol
+
+Always check for cd /opt/stats/App.java for any ports, it uses for an event to be triggered
+In this case, its port 5000
+````
+/opt/stats$ cat app.java
+cat: app.java: No such file or directory
+dev@oscp:/opt/stats$ cat App.java 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+class StatsApp {
+    public static void main(String[] args) {
+        System.out.println("System Stats\n");
+        Runtime rt = Runtime.getRuntime();
+        String output = new String();
+
+        try {
+            ServerSocket echod = new ServerSocket(5000);
+            while (true) {
+              output = "";
+              output += "Available Processors: " + rt.availableProcessors() +"\r\n";
+              output += "Free Memory: " + rt.freeMemory() + "\r\n";
+              output += "Total Memory: " + rt.totalMemory() +"\r\n";
+
+              Socket socket = echod.accept();
+              InputStream in = socket.getInputStream();
+              OutputStream out = socket.getOutputStream();
+              out.write((output + "\r\n").getBytes());
+              System.out.println(output);
+            }
+        } catch (IOException e) {
+            System.err.println(e.toString());
+            System.exit(1);
+        }
+    }
+}
+````
+
 If you are waiting for an event,
 
 let's say there is an exploit you are running, and its waiting for an event,
