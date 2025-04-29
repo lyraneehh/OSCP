@@ -1,0 +1,25 @@
+If you are waiting for an event,
+
+let's say there is an exploit you are running, and its waiting for an event,
+
+always netstat -tunlp, and do a nc on all the ports.
+````
+dev@oscp:/$ netstat -tunlp
+(Not all processes could be identified, non-owned process info
+ will not be shown, you would have to be root to see it all.)
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      -                   
+tcp        0      0 127.0.0.1:8000          0.0.0.0:*               LISTEN      -                   
+tcp        0      0 127.0.0.53:53           0.0.0.0:*               LISTEN      -                   
+tcp6       0      0 :::22                   :::*                    LISTEN      -                   
+tcp6       0      0 :::5000                 :::*                    LISTEN      -                   
+tcp6       0      0 :::8080                 :::*                    LISTEN      841/java            
+udp        0      0 127.0.0.53:53           0.0.0.0:*                           -                   
+dev@oscp:/$ nc 0.0.0.0 5000
+````
+
+Example:
+
+nc 0.0.0.0 5000, nc 0.0.0.0 8080, nc 127.0.0.1 8000, nc 127.0.0.1 53
+
