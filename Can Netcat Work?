@@ -1,9 +1,0 @@
-Test-NetConnection -ComputerName 192.168.45.184 -Port 8888
-
-
-
-try
-
--e /bin/bash
-
--e /bin/sh
