@@ -127,6 +127,7 @@ icacls "C:\Python27"
 
 # Can write files?
 "This is the output from a command" | Out-File -FilePath "C:\temp\example.txt"
+ni 123.txt
 ```
 
 # ⭐⭐ Services ⭐⭐ 
