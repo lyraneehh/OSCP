@@ -271,6 +271,10 @@ Get-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\simpleService"
 Get-ScheduledTask
 schtasks /query
 
+Show only task with no n/a
+schtasks /query /fo LIST | %{ $_.Trim() } | % -begin {$t=''} {if ($_ -like "TaskName*") {$t=$_} elseif ($_ -like "Next Run Time*:*" -and $_ -notlike "*N/A*") { "$t - $_" }}
+
+
 🔺List task in a specific folder
 # to find out task path, specify task using 'Get-ScheduledTask'
 Get-ScheduledTask | Where-Object {$_.TaskPath -eq "\Microsoft\Windows\Shell\"}
