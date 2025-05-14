@@ -135,18 +135,24 @@ icacls "C:\Python27"
 
 ## 💠Manage Service💠 
 ```
+Always run this and look for any services NOT running as  C:\Windows\System32\
+Get-CimInstance -ClassName win32_service | Select Name,State,PathName | Where-Object {$_.State -like 'Running'}
+
+Can we start and stop those services?
+Can we write to that file path?
+Can we delete the binary?
+
+sc.exe stop <SERVICE>
+sc.exe start <SERVICE>
+restart-service <SERVICE>
+
+
+
 Get-Service
 Get-Service | Select-Object Displayname,Status,ServiceName,Can*
 sc.exe query
 sc.exe query | select-string service_name
 
-🔺 Binary Path
-Get-CimInstance -ClassName win32_service | Select Name,State,PathName | Where-Object {$_.State -like 'Running'}
-
-
-sc.exe stop <SERVICE>
-sc.exe start <SERVICE>
-restart-service <SERVICE>
 
 🔺 Is SERVICE_START_NAME = LocalSystem? -> SYSTEM Privileges?
 🔺 Check if writable by all logged-on users (NT AUTHORITY\INTERACTIVE)
